@@ -7,6 +7,51 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                <GradientStop Color="LimeGreen" Offset="0.2"/>
+                <GradientStop Color="Black" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         
+        <WrapPanel Height="100">
+            <TextBox Width="500" Height="100" Margin="20 0 0 0"
+                     Text="{Binding CurrentMessage.Content}"
+                     Opacity="0.5" Foreground="Black" FontSize="25"/>
+            <Button Width="200" Height="50" Margin="30 0 0 0" 
+                    Content="Send" FontSize="20" Command="{Binding Send}"/>
+        </WrapPanel>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding AllMessages}" 
+                  Height="250" Width="800" Opacity="0.5">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Who" Width="95">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Padding="5,0" Height="50" 
+                                           Width="95"
+                                           Text="{Binding Id}"
+                                           TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Message" Width="650">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Padding="5,0" Height="50" Width="650"
+                                           Text="{Binding Content}" 
+                                           TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
