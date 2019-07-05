@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Net.Sockets;
 using System.Net;
+using System.Threading;
 
 namespace MultiClientChatLast.ViewModels
 {
@@ -42,8 +43,9 @@ namespace MultiClientChatLast.ViewModels
         public MainCommand Send => new MainCommand((body) =>
         {
             AllMessages.Add(CurrentMessage);
+
             Task senderTask = Task.Run(() =>
-            {                
+            {
                 Socket.Send(Encoding.ASCII.GetBytes(CurrentMessage.Content));
             });
 
@@ -53,10 +55,14 @@ namespace MultiClientChatLast.ViewModels
                 if (length != 0)
                 {
                     var msg = Encoding.ASCII.GetString(buffer, 0, length);
-                AllMessages.Add(new Message() { Content = $"Server 1: {msg}" });
+
+                    App.Current.Dispatcher.Invoke(()=>
+                    {
+                        AllMessages.Add(CurrentMessage);
+                    });
                 }
             });
-
+            
             Task.WaitAll(senderTask, receiverTask);
         });
 
@@ -64,7 +70,20 @@ namespace MultiClientChatLast.ViewModels
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("10.1.16.33"), 1031);
             Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            Socket.Connect(endPoint);
+            while (!Socket.Connected)
+            {
+                try
+                {
+                    Socket.Connect(endPoint);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("NOT CONNECTED");
+                    continue;
+                }
+                Console.WriteLine("CONNECTED");
+                break;
+            }
 
             currentMessage = new Message();
             AllMessages = new ObservableCollection<Message>();
