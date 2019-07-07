@@ -1,14 +1,11 @@
 ﻿using MultiClientChatLast.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using System.Net.Sockets;
-using System.Net;
+using MultiClientChatLast.ClassesAboutChat;
+using System.Windows.Controls;
+using MultiClientChatLast.Views;
 using System.Threading;
+using System.Windows;
 
 namespace MultiClientChatLast.ViewModels
 {
@@ -25,70 +22,70 @@ namespace MultiClientChatLast.ViewModels
             }
         }
 
-        public Socket Socket { get; set; }
+        public Grid MainGrid { get; set; }
 
-        byte[] buffer = new byte[1024];
-
-        private Message currentMessage;
-        public Message CurrentMessage
+        private Visibility progressBarState = Visibility.Hidden;
+        public Visibility ProgressBarState
         {
-            get => currentMessage;
+            get => progressBarState;
             set
             {
-                currentMessage = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(CurrentMessage)));
+                progressBarState = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ProgressBarState)));
             }
         }
 
+        private Message sendedMessage;
+        public Message SendedMessage
+        {
+            get => sendedMessage;
+            set
+            {
+                sendedMessage = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(SendedMessage)));
+            }
+        }
+
+        public Message ReceviedMessage { get; set; }
+
+        ChatController controller => new ChatController(this);
+
         public MainCommand Send => new MainCommand((body) =>
         {
-            AllMessages.Add(CurrentMessage);
-
-            Task senderTask = Task.Run(() =>
+            if (SendedMessage.Content != null)
             {
-                Socket.Send(Encoding.ASCII.GetBytes(CurrentMessage.Content));
-            });
-
-            Task receiverTask = Task.Run(() =>
-            {
-                int length = Socket.Receive(buffer);
-                if (length != 0)
-                {
-                    var msg = Encoding.ASCII.GetString(buffer, 0, length);
-
-                    App.Current.Dispatcher.Invoke(()=>
-                    {
-                        AllMessages.Add(CurrentMessage);
-                    });
-                }
-            });
-            
-            Task.WaitAll(senderTask, receiverTask);
+                AllMessages.Add(SendedMessage);
+                controller.SendMessage();
+                SendedMessage = new Message();
+            }
         });
 
         public MainWindowViewModel()
         {
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("10.1.16.33"), 1031);
-            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            while (!Socket.Connected)
-            {
-                try
-                {
-                    Socket.Connect(endPoint);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("NOT CONNECTED");
-                    continue;
-                }
-                Console.WriteLine("CONNECTED");
-                break;
-            }
-
-            currentMessage = new Message();
+            ReceviedMessage = new Message();
+            SendedMessage = new Message();
+            //controller.ReceivingMessages();
             AllMessages = new ObservableCollection<Message>();
         }
 
+        public MainCommand Registration => new MainCommand((body) =>
+        {
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(new RegistrationPage());
+        });
+
+        public MainCommand Start => new MainCommand((body) =>
+        {
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(new LoginPage());
+        });
+
+        public MainCommand SignUp => new MainCommand((body) =>
+        {
+            ProgressBarState = Visibility.Visible;
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(new MessagesPage());
+        });
 
     }
 }
