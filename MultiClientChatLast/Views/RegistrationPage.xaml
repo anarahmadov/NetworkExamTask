@@ -163,10 +163,10 @@
             <TextBox Width="280" Style="{StaticResource txtboxEmail}" 
                          Text="example@stepit.az" Canvas.Left="255" Canvas.Top="175"/>
 
-            <Viewbox Name="forPbar" Width="50" Height="50"
+            <Viewbox Name="forPbar" Width="200" Height="50"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" 
-                Canvas.Left="365" Canvas.Top="165"
+                Canvas.Left="290" Canvas.Top="165"
                 Visibility="{Binding ProgressBarState}">
                 <local2:CircularProgressBar/>
             </Viewbox>

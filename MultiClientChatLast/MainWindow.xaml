@@ -7,7 +7,8 @@
         xmlns:startPage="clr-namespace:MultiClientChatLast.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStyle="None" ResizeMode="NoResize">
+        Title="MainWindow" Height="450" Width="800" WindowStyle="None" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
@@ -29,7 +30,7 @@
                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            
+
                             <EventTrigger RoutedEvent="MouseEnter">
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -49,16 +50,11 @@
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
-
-                            <!--<Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" TargetName="border" Value="Black"/>
-                            </Trigger>-->
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
     </Window.Resources>
 
     <Grid>

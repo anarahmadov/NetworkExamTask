@@ -83,8 +83,8 @@ namespace MultiClientChatLast.ViewModels
         public MainCommand SignUp => new MainCommand((body) =>
         {
             ProgressBarState = Visibility.Visible;
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(new MessagesPage());
+            //MainGrid.Children.Clear();
+            //MainGrid.Children.Add(new MessagesPage());
         });
 
     }
