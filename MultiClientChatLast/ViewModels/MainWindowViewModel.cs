@@ -96,6 +96,14 @@ namespace MultiClientChatLast.ViewModels
 
         private void MainWindowViewModel_OnChangedPages(object sender, MyEventArgs e)
         {
+            SetPage(e);
+        }
+
+        #endregion
+
+        #region additional methods
+        private void SetPage(MyEventArgs e)
+        {
             var type = e.GetTypeOfNext();
 
             if (type == typeof(LoginPage))
@@ -110,6 +118,7 @@ namespace MultiClientChatLast.ViewModels
                 }
                 MainGrid.Children.Add(new LoginPage(this));
             }
+
             else if (type == typeof(RegistrationPage))
             {
                 var index = MainGrid.Children.IndexOf(ProgressBar);
@@ -122,10 +131,7 @@ namespace MultiClientChatLast.ViewModels
                 }
                 MainGrid.Children.Add(new RegistrationPage(this));
             }
-            else if(type == typeof(CircularProgressBar))
-            {
-                MainGrid.Children.Add(new CircularProgressBar());
-            }
+
             else if (type == typeof(ConfirmCodePage))
             {
                 var index = MainGrid.Children.IndexOf(ProgressBar);
@@ -138,8 +144,25 @@ namespace MultiClientChatLast.ViewModels
                 }
                 MainGrid.Children.Add(new ConfirmCodePage(this));
             }
-        }
 
+            else if (type == typeof(MessagesPage))
+            {
+                var index = MainGrid.Children.IndexOf(ProgressBar);
+
+                for (int i = 0, imax = MainGrid.Children.Count; i < imax; i++)
+                {
+                    if (i == index)
+                        continue;
+                    MainGrid.Children.RemoveAt(i);
+                }
+                MainGrid.Children.Add(new MessagesPage());
+            }
+
+            else if (type == typeof(CircularProgressBar))
+            {
+                MainGrid.Children.Add(new CircularProgressBar());
+            }
+        }
         #endregion
 
         #region initialize of commands
@@ -163,7 +186,7 @@ namespace MultiClientChatLast.ViewModels
 
         public void FireOnClickedSignUp()
         {
-            OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
+            OnChangedPages(this, new MyEventArgs(typeof(ConfirmCodePage)));
         }
 
         public void FireOnClickedRegistration()
@@ -176,10 +199,24 @@ namespace MultiClientChatLast.ViewModels
             OnChangedPages(this, new MyEventArgs(typeof(CircularProgressBar)));
         }
 
-        public void FireOnClickedConfirm()
+        public void FireOnClickedConfirm(ConfirmPages confirmPageType)
+        {           
+            switch (confirmPageType)
+            {
+                case ConfirmPages.Login:
+                    OnChangedPages(this, new MyEventArgs(typeof(MessagesPage)));
+                    break;
+                case ConfirmPages.Registration:
+                    OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
+                    break;
+            }
+        }
+
+        public void FireOnClickedSignIn()
         {
             OnChangedPages(this, new MyEventArgs(typeof(ConfirmCodePage)));
         }
+
         #endregion
 
     }

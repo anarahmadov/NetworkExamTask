@@ -1,4 +1,5 @@
 ﻿using MultiClientChatLast.Domain;
+using MultiClientChatLast.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -20,8 +21,12 @@ namespace MultiClientChatLast
         public static Socket Socket { get; set; }
         public static string ContactsFilePath { get; set; }
         public static User TryedUser { get; set; }
-        public static int SendedConfirmCode { get; set; }
-        public static int EnteredConfirmCode { get; set; }
+        public static long SendedConfirmCode { get; set; }
+        public static long EnteredConfirmCode { get; set; }
+
+        public static List<User> RegistratedUsers { get; set; }
+
+        public static ConfirmPages ConfirmPagesType { get; set; }
 
         public App()
         {
@@ -47,14 +52,31 @@ namespace MultiClientChatLast
 
             TryedUser = new User();
 
+            RegistratedUsers = new List<User>();
+
             CreateSpecialFile();
+
+            RegistratedUsers = Config.GetAllUsers();
         }
 
         private void CreateSpecialFile()
         {
             var di = Directory.CreateDirectory($@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\WhatsappJunior");
 
-            File.Create($@"{di.FullName}\contacts.json");
-        } 
+            ContactsFilePath = $@"{di.FullName}\contacts.json";
+
+            if (!File.Exists(ContactsFilePath))
+            {
+                using (var sw = new StreamWriter(ContactsFilePath))
+                {
+                }
+            }
+        }
+    }
+
+    public enum ConfirmPages
+    {
+        Registration = 1,
+        Login = 2
     }
 }

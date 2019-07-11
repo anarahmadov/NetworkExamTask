@@ -18,24 +18,18 @@ namespace MultiClientChatLast.ViewModels
         // object of MainViewModel
         MainWindowViewModel mainViewModel;
 
+        // user that currently trying to system
         public User CurrentUser { get; set; }
-
-        Config config = new Config();
-
-        Random r = new Random();
 
         public MainCommand SignUp => new MainCommand((body) =>
         {
             App.TryedUser = CurrentUser;
 
-            var randomConfirmCode = r.Next();
+            App.SendedConfirmCode = Check.SendConfirmCode(App.TryedUser.EmailAddress);
 
-            App.SendedConfirmCode = randomConfirmCode;
+            App.ConfirmPagesType = ConfirmPages.Registration;
 
-            Check.SendConfirmCode(App.TryedUser.EmailAddress, randomConfirmCode);
-
-            mainViewModel.FireOnClickedConfirm();           
-
+            mainViewModel.FireOnClickedSignUp();           
         });
 
         public RegistrationVM(MainWindowViewModel viewModel)

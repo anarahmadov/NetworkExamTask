@@ -27,8 +27,11 @@ namespace MultiClientChatLast.ViewModels
             }
         }
 
+        // class for operations writing & reading to contacts file
+        Config config = new Config();
+
         public MainCommand Confirm => new MainCommand((body) =>
-        {
+        {           
             Task.Run(() =>
             {
                 App.Current.Dispatcher.Invoke(() =>
@@ -36,23 +39,45 @@ namespace MultiClientChatLast.ViewModels
                     mainViewModel.ProgressBarState = Visibility.Visible;
                 });
 
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
 
-                App.EnteredConfirmCode = int.Parse(ConfirmCode);
+                // check that it is which of confirmpage of page
+                switch (App.ConfirmPagesType)
+                {
+                    case ConfirmPages.Registration:
+                        App.Current.Dispatcher.Invoke(() =>
+                        {
+                            App.EnteredConfirmCode = int.Parse(ConfirmCode);
 
-                if (App.EnteredConfirmCode == App.SendedConfirmCode)
-                {
-                    mainViewModel.FireOnClickedSignUp();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid confirm code");
-                    ConfirmCode = null;
+                            if (App.EnteredConfirmCode == App.SendedConfirmCode)
+                            {
+                                mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
+                                App.RegistratedUsers.Add(App.TryedUser);
+                                config.SaveToFile(App.TryedUser);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Invalid confirm code");
+                                ConfirmCode = null;
+                            }
+                        });
+                        break;
+                    case ConfirmPages.Login:
+                        App.Current.Dispatcher.Invoke(() =>
+                        {
+                            App.EnteredConfirmCode = int.Parse(ConfirmCode);
+
+                            if(App.EnteredConfirmCode == App.SendedConfirmCode)
+                            {
+                                mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
+                            }
+                        });
+                        break;
                 }
 
                 App.Current.Dispatcher.Invoke(() =>
                 {
-                    mainViewModel.ProgressBarState = Visibility.Collapsed;
+                    mainViewModel.ProgressBarState = Visibility.Hidden;
                 });
 
             });

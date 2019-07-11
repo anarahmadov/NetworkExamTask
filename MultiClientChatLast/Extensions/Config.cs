@@ -14,23 +14,20 @@ namespace MultiClientChatLast.Extensions
     {
         public void SaveToFile(User user)
         {
-            if (user != null)
+            try
             {
-                string json = null;
+                if (user != null)
+                {
+                    string json = null;
 
-                if (File.ReadAllText(App.ContactsFilePath) != null)
-                {
-                    json = JsonConvert.SerializeObject(new List<User>() { user });
-                }
-                else
-                {
-                    json = JsonConvert.SerializeObject(user);
-                }
+                    json = JsonConvert.SerializeObject(App.RegistratedUsers);
 
-                using (var writer = File.AppendText(App.ContactsFilePath))
-                {
-                    writer.Write(json);
+                    File.WriteAllText(App.ContactsFilePath, json);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -41,6 +38,13 @@ namespace MultiClientChatLast.Extensions
 
             return JsonConvert.DeserializeObject<List<User>>(File.ReadAllText(App.ContactsFilePath))
                 .SingleOrDefault(x => x.EmailAddress == user.EmailAddress);
+        }
+
+        public static List<User> GetAllUsers()
+        {
+            var result = JsonConvert.DeserializeObject<List<User>>(File.ReadAllText(App.ContactsFilePath));
+
+            return result;
         }
     }
 }

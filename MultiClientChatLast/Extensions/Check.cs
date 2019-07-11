@@ -11,12 +11,16 @@ namespace MultiClientChatLast.Extensions
 {
     public class Check
     {
-        public static void SendConfirmCode(string emailAddress, long confirmCode)
+        static Random random = new Random();
+
+        public static long SendConfirmCode(string emailAddress)
         {
+            long confirmCode = random.Next();
+
             Task.Run(() =>
             {
                 string mailBodyhtml =
-                    $"<h1>Your authorization code is {confirmCode}</h1>";
+                    $"<h1>Confirm code </h1><p1>{confirmCode}</p1>";
                 var msg = new MailMessage("anar.axmed5514@gmail.com", emailAddress, "Authorization Code", mailBodyhtml);
                 msg.IsBodyHtml = true;
 
@@ -25,7 +29,17 @@ namespace MultiClientChatLast.Extensions
                 smtpClient.Credentials = new NetworkCredential("anar.axmed5514@gmail.com", "anaranar888");
                 smtpClient.EnableSsl = true;
                 smtpClient.Send(msg);
+
             });
+
+            return confirmCode;
+        }
+
+        public static bool isRegistrated(string emailAddress)
+        {
+            var result = App.RegistratedUsers.SingleOrDefault(x => x.EmailAddress == emailAddress);
+
+            return result == null ? false : true;
         }
     }
 }
