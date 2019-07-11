@@ -6,11 +6,17 @@ using System.Windows.Controls;
 using MultiClientChatLast.Views;
 using System.Threading;
 using System.Windows;
+using System.Threading.Tasks;
+using System;
+using MultiClientChatLast.CustomEvents;
+using MultiClientChatLast.Extensions;
 
 namespace MultiClientChatLast.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
+        #region properties and fields
+
         private ObservableCollection<Message> allMessages;
         public ObservableCollection<Message> AllMessages
         {
@@ -22,18 +28,27 @@ namespace MultiClientChatLast.ViewModels
             }
         }
 
+        // custom events
+        public delegate void MyEventHandler(object sender, MyEventArgs args);
+        public event MyEventHandler OnChangedPages;
+
         public Grid MainGrid { get; set; }
 
-        private Visibility progressBarState = Visibility.Hidden;
+        // progressbar state
+        private Visibility progressBarState = Visibility.Collapsed;
         public Visibility ProgressBarState
         {
             get => progressBarState;
+
             set
             {
                 progressBarState = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(ProgressBarState)));
             }
         }
+
+        //progressbar object
+        public CircularProgressBar ProgressBar { get; set; }
 
         private Message sendedMessage;
         public Message SendedMessage
@@ -48,7 +63,13 @@ namespace MultiClientChatLast.ViewModels
 
         public Message ReceviedMessage { get; set; }
 
+        // for send & receive sended data
         ChatController controller => new ChatController(this);
+
+        // The file that all users stored in
+        Config config = new Config();
+
+        #endregion
 
         public MainCommand Send => new MainCommand((body) =>
         {
@@ -66,26 +87,83 @@ namespace MultiClientChatLast.ViewModels
             SendedMessage = new Message();
             //controller.ReceivingMessages();
             AllMessages = new ObservableCollection<Message>();
+
+            // sucscribe events
+            OnChangedPages = new MyEventHandler(MainWindowViewModel_OnChangedPages);
         }
 
-        public MainCommand Registration => new MainCommand((body) =>
+        #region method of my custom event that named OnChangedPages
+
+        private void MainWindowViewModel_OnChangedPages(object sender, MyEventArgs e)
         {
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(new RegistrationPage());
-        });
+            var type = e.GetTypeOfNext();
+
+            if (type == typeof(LoginPage))
+            {
+                var index = MainGrid.Children.IndexOf(ProgressBar);
+
+                for (int i = 0, imax = MainGrid.Children.Count; i < imax; i++)
+                {
+                    if (i == index)
+                        continue;
+                    MainGrid.Children.RemoveAt(i);
+                }
+                MainGrid.Children.Add(new LoginPage(this));
+            }
+            else if (type == typeof(RegistrationPage))
+            {
+                var index = MainGrid.Children.IndexOf(ProgressBar);
+
+                for (int i = 0, imax = MainGrid.Children.Count; i < imax; i++)
+                {
+                    if (i == index)
+                        continue;
+                    MainGrid.Children.RemoveAt(i);
+                }
+                MainGrid.Children.Add(new RegistrationPage(this));
+            }
+            else if(type == typeof(CircularProgressBar))
+            {
+                MainGrid.Children.Add(new CircularProgressBar());
+            }
+        }
+
+        #endregion
+
+        #region initialize of commands
 
         public MainCommand Start => new MainCommand((body) =>
         {
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(new LoginPage());
+            var index = MainGrid.Children.IndexOf(ProgressBar);
+
+            for (int i = 0, imax = MainGrid.Children.Count; i < imax; i++)
+            {
+                if (i == index)
+                    continue;
+                MainGrid.Children.RemoveAt(i);
+            }
+            MainGrid.Children.Add(new LoginPage(this));
         });
 
-        public MainCommand SignUp => new MainCommand((body) =>
+        #endregion
+
+        #region  methods for to fire OnChangedPages
+
+        public void FireOnClickedSignUp()
         {
-            ProgressBarState = Visibility.Visible;
-            MainGrid.Children.Clear();
-            MainGrid.Children.Add(new MessagesPage());
-        });
+            OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
+        }
+
+        public void FireOnClickedRegistration()
+        {
+            OnChangedPages(this, new MyEventArgs(typeof(RegistrationPage)));
+        }
+
+        public void FireOnProgressing()
+        {
+            OnChangedPages(this, new MyEventArgs(typeof(CircularProgressBar)));
+        }
+        #endregion
 
     }
 }

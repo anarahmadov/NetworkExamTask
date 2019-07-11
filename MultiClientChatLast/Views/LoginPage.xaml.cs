@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MultiClientChatLast.ViewModels;
+using MultiClientChatLast.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,11 @@ namespace MultiClientChatLast.Views
     /// </summary>
     public partial class LoginPage : UserControl
     {
-        public LoginPage()
+        public LoginPage(MainWindowViewModel viewModel)
         {
             InitializeComponent();
+
+            DataContext = new LoginPageVM(viewModel);
         }
     }
 }

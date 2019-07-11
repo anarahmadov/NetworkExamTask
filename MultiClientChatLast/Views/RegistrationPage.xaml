@@ -20,7 +20,7 @@
                                     Width="280" Background="Black" 
                                     CornerRadius="10" Opacity="0.4">
                             <Grid>
-                                <TextBlock Text="{TemplateBinding Text}" Foreground="Gray" Margin="37 15 0 0" 
+                                <TextBlock Text="{TemplateBinding Tag}" Foreground="Gray" Margin="37 15 0 0" 
                                            FontSize="17" FontFamily="Times New Roman" Opacity="042">
                                     <TextBlock.Visibility>
                                         <MultiBinding Converter="{StaticResource TextInputToVisibilityConverter}">
@@ -53,7 +53,7 @@
                                     Width="280" Background="Black" 
                                     CornerRadius="10" Opacity="0.4">
                             <Grid>
-                                <TextBlock Text="{TemplateBinding Text}" Foreground="Gray" Margin="37 15 0 0" 
+                                <TextBlock Text="{TemplateBinding Tag}" Foreground="Gray" Margin="37 15 0 0" 
                                            FontSize="17" FontFamily="Times New Roman" Opacity="042">
                                     <TextBlock.Visibility>
                                         <MultiBinding Converter="{StaticResource TextInputToVisibilityConverter}">
@@ -86,7 +86,7 @@
                                     Width="280" Background="Black" 
                                     CornerRadius="10" Opacity="0.4">
                             <Grid>
-                                <TextBlock Text="{TemplateBinding Text}" Foreground="Gray" Margin="37 15 0 0" 
+                                <TextBlock Text="{TemplateBinding Tag}" Foreground="Gray" Margin="37 15 0 0" 
                                            FontSize="17" FontFamily="Times New Roman" Opacity="042">
                                     <TextBlock.Visibility>
                                         <MultiBinding Converter="{StaticResource TextInputToVisibilityConverter}">
@@ -119,7 +119,7 @@
                                     Width="280" Background="Black" 
                                     CornerRadius="10" Opacity="0.4">
                             <Grid>
-                                <TextBlock Text="{TemplateBinding Text}" Foreground="Gray" Margin="37 15 0 0" 
+                                <TextBlock Text="{TemplateBinding Tag}" Foreground="Gray" Margin="37 15 0 0" 
                                            FontSize="17" FontFamily="Times New Roman" Opacity="042">
                                     <TextBlock.Visibility>
                                         <MultiBinding Converter="{StaticResource TextInputToVisibilityConverter}">
@@ -146,41 +146,55 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.Background>
-            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                <GradientStop Color="DarkOliveGreen" Offset="0.2"/>
-                <GradientStop Color="Black" Offset="1.0"/>
-            </LinearGradientBrush>
-        </Grid.Background>
-
-        <Canvas>
+        <StackPanel Width="330" Height="400">
             <TextBox Width="280" Style="{StaticResource txtboxFirstName}" 
-                         Text="First name" Canvas.Left="255" Canvas.Top="45"/>
+                         Tag="First name" 
+                     Text="{Binding CurrentUser.FirstName}" Margin="0 50 0 0"/>
 
             <TextBox Width="280" Style="{StaticResource txtboxLastName}" 
-                         Text="Last name" Canvas.Left="255" Canvas.Top="110"/>
+                         Tag="Last name" Canvas.Left="255" Canvas.Top="110"
+                      Text="{Binding CurrentUser.FirstName}" Margin="0 10 0 0"/>
 
             <TextBox Width="280" Style="{StaticResource txtboxEmail}" 
-                         Text="example@stepit.az" Canvas.Left="255" Canvas.Top="175"/>
-
-            <Viewbox Name="forPbar" Width="50" Height="50"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" 
-                Canvas.Left="365" Canvas.Top="165"
-                Visibility="{Binding ProgressBarState}">
-                <local2:CircularProgressBar/>
-            </Viewbox>
+                         Tag="example@stepit.az" Canvas.Left="255" Canvas.Top="175"
+                      Text="{Binding CurrentUser.FirstName}" Margin="0 10 0 0"/>
 
             <TextBox Width="280" Style="{StaticResource txtboxConfirmCode}" 
-                         Text="enter code here.." Canvas.Left="255" Canvas.Top="240"/>
+                         Tag="enter code here.." Margin="0 10 0 0"/>
 
             <Button  Width="200" Height="60" Content="Sign Up" 
                     FontFamily="Times New Roman"
                     FontSize="17" Background="Transparent" 
-                    Canvas.Left="290" Canvas.Top="330"
-                    Command="{Binding SignUp}" Foreground="White"/>
+                    Command="{Binding SignUp}" Foreground="White"
+                     Margin="0 40 0 0"/>
 
-        </Canvas>
+        </StackPanel>
+
+        <!--<Border Width="330" Height="400">
+            <StackPanel Width="330" Height="400" Background="DimGray" Opacity="0.7" >
+                <TextBox Width="280" Style="{StaticResource txtboxFirstName}" 
+                         Tag="First name" 
+                     Text="{Binding CurrentUser.FirstName}" Margin="0 30 0 0"/>
+
+                <TextBox Width="280" Style="{StaticResource txtboxLastName}" 
+                         Tag="Last name" Canvas.Left="255" Canvas.Top="110"
+                      Text="{Binding CurrentUser.FirstName}" Margin="0 10 0 0"/>
+
+                <TextBox Width="280" Style="{StaticResource txtboxEmail}" 
+                         Tag="example@stepit.az" Canvas.Left="255" Canvas.Top="175"
+                      Text="{Binding CurrentUser.FirstName}" Margin="0 10 0 0"/>
+
+                <TextBox Width="280" Style="{StaticResource txtboxConfirmCode}" 
+                         Tag="enter code here.." Margin="0 10 0 0"/>
+
+                <Button  Width="200" Height="60" Content="Sign Up" 
+                    FontFamily="Times New Roman"
+                    FontSize="17" Background="Transparent" 
+                    Command="{Binding SignUp}" Foreground="White"
+                     Margin="0 40 0 0"/>
+
+            </StackPanel>
+        </Border>-->
 
     </Grid>
 </UserControl>

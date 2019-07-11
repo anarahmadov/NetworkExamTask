@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MultiClientChatLast.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,11 @@ namespace MultiClientChatLast.Views
     /// </summary>
     public partial class RegistrationPage : UserControl
     {
-        public RegistrationPage()
+        public RegistrationPage(MainWindowViewModel viewModel)
         {
             InitializeComponent();
+
+            DataContext = new RegistrationVM(viewModel);
         }
     }
 }

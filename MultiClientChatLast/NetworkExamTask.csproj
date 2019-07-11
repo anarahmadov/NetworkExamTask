@@ -41,6 +41,9 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.1.1345, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.2.5.1\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -65,12 +68,17 @@
     <Compile Include="Animation\PageAnimations.cs" />
     <Compile Include="Animation\StoryboardHelpers.cs" />
     <Compile Include="ClassesAboutChat\ChatController.cs" />
+    <Compile Include="CustomEvents\MyEventArgs.cs" />
+    <Compile Include="Domain\Conversation.cs" />
     <Compile Include="Domain\Message.cs" />
-    <Compile Include="Extenions\CircularProgressBar.xaml.cs">
+    <Compile Include="Domain\User.cs" />
+    <Compile Include="Extensions\CircularProgressBar.xaml.cs">
       <DependentUpon>CircularProgressBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Extenions\TextInputToVisibilityConverter.cs" />
+    <Compile Include="Extensions\Config.cs" />
+    <Compile Include="Extensions\TextInputToVisibilityConverter.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\LoginPageVM.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\RegistrationVM.cs" />
     <Compile Include="Views\ConversationsPage.xaml.cs">
@@ -88,7 +96,7 @@
     <Compile Include="Views\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="Extenions\CircularProgressBar.xaml">
+    <Page Include="Extensions\CircularProgressBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

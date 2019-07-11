@@ -55,7 +55,7 @@
             <Button Margin="-10 20 0 0" Width="150" Height="50" Content="Sign In" 
                     FontFamily="Times New Roman"
                     FontSize="17" Background="Transparent" 
-                    Foreground="White"
+                    Foreground="White" Command="{Binding SigIn}"
                     />
             <Button Margin="-10 80 0 0" Width="220" Height="60" Content="Registration" 
                     FontFamily="Times New Roman"
