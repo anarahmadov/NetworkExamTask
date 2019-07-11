@@ -4,6 +4,7 @@ using MultiClientChatLast.Extensions;
 using MultiClientChatLast.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -21,33 +22,27 @@ namespace MultiClientChatLast.ViewModels
 
         Config config = new Config();
 
+        Random r = new Random();
+
         public MainCommand SignUp => new MainCommand((body) =>
         {
-            //mainViewModel.FireOnProgressing();
+            App.TryedUser = CurrentUser;
 
-            Task.Run(() =>
-            {
-                config.SaveToFile(CurrentUser);
+            var randomConfirmCode = r.Next();
 
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    mainViewModel.ProgressBarState = Visibility.Visible;
-                });
+            App.SendedConfirmCode = randomConfirmCode;
 
-                Thread.Sleep(2000);
+            Check.SendConfirmCode(App.TryedUser.EmailAddress, randomConfirmCode);
 
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    mainViewModel.ProgressBarState = Visibility.Collapsed;
-                    mainViewModel.FireOnClickedSignUp();
-                });
-            });
+            mainViewModel.FireOnClickedConfirm();           
 
         });
 
         public RegistrationVM(MainWindowViewModel viewModel)
         {
             this.mainViewModel = viewModel;
+
+            CurrentUser = new User();
         }
 
     }

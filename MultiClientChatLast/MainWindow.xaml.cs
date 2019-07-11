@@ -28,7 +28,6 @@ namespace MultiClientChatLast
             MainWindowViewModel vm = new MainWindowViewModel();
             vm.MainGrid = MainGrid;
             vm.ProgressBar = progressBar;
-
             DataContext = vm;
         }
 

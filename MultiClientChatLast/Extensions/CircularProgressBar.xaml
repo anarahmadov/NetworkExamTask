@@ -10,7 +10,7 @@
                               ScaleX="1.0" ScaleY="1.0" />
         </Grid.RenderTransform>
 
-        <WrapPanel Height="130" Width="400" Background="DarkOliveGreen">
+        <WrapPanel Height="100" Width="300">
             <Canvas RenderTransformOrigin="0.5,0.5"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
@@ -101,8 +101,8 @@
 
             </Canvas>
 
-            <Label Content=" Loading..." Width="200" Height="80"
-                 FontSize="40" VerticalContentAlignment="Center"
+            <Label Content=" Loading..." Width="150" Height="80"
+                 FontSize="30" VerticalContentAlignment="Center"
                  FontFamily="Times New Roman"/>
         </WrapPanel>
 

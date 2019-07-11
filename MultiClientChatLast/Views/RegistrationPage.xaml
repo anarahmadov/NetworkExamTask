@@ -36,7 +36,8 @@
                                              Foreground="White" Background="Transparent"
                                              CaretBrush="White" BorderThickness="3" BorderBrush="Black"
                                              VerticalContentAlignment="Center" Margin="5,0,15,0"
-                                             FontSize="18" FontFamily="Times New Roman"/>
+                                             FontSize="18" FontFamily="Times New Roman" 
+                                             Text="{Binding CurrentUser.EmailAddress}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -102,7 +103,8 @@
                                              Foreground="White" Background="Transparent"
                                              CaretBrush="White" BorderThickness="3" BorderBrush="Black"
                                              VerticalContentAlignment="Center" Margin="5,0,15,0"
-                                             FontSize="18" FontFamily="Times New Roman"/>
+                                             FontSize="18" FontFamily="Times New Roman"
+                                             Text="{Binding CurrentUser.FirstName}"/>
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -135,7 +137,8 @@
                                              Foreground="White" Background="Transparent"
                                              CaretBrush="White" BorderThickness="3" BorderBrush="Black"
                                              VerticalContentAlignment="Center" Margin="2,0,15,0"
-                                             FontSize="18" FontFamily="Times New Roman"/>
+                                             FontSize="18" FontFamily="Times New Roman"
+                                             Text="{Binding CurrentUser.LastName}" />
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -148,53 +151,23 @@
     <Grid>
         <StackPanel Width="330" Height="400">
             <TextBox Width="280" Style="{StaticResource txtboxFirstName}" 
-                         Tag="First name" 
-                     Text="{Binding CurrentUser.FirstName}" Margin="0 50 0 0"/>
+                      Tag="First name" 
+                      Margin="0 50 0 0"/>
 
             <TextBox Width="280" Style="{StaticResource txtboxLastName}" 
                          Tag="Last name" Canvas.Left="255" Canvas.Top="110"
-                      Text="{Binding CurrentUser.FirstName}" Margin="0 10 0 0"/>
+                      Margin="0 10 0 0"/>
 
             <TextBox Width="280" Style="{StaticResource txtboxEmail}" 
                          Tag="example@stepit.az" Canvas.Left="255" Canvas.Top="175"
-                      Text="{Binding CurrentUser.FirstName}" Margin="0 10 0 0"/>
-
-            <TextBox Width="280" Style="{StaticResource txtboxConfirmCode}" 
-                         Tag="enter code here.." Margin="0 10 0 0"/>
+                      Margin="0 10 0 0"/>
 
             <Button  Width="200" Height="60" Content="Sign Up" 
                     FontFamily="Times New Roman"
                     FontSize="17" Background="Transparent" 
                     Command="{Binding SignUp}" Foreground="White"
-                     Margin="0 40 0 0"/>
+                    Margin="0 40 0 0"/>
 
         </StackPanel>
-
-        <!--<Border Width="330" Height="400">
-            <StackPanel Width="330" Height="400" Background="DimGray" Opacity="0.7" >
-                <TextBox Width="280" Style="{StaticResource txtboxFirstName}" 
-                         Tag="First name" 
-                     Text="{Binding CurrentUser.FirstName}" Margin="0 30 0 0"/>
-
-                <TextBox Width="280" Style="{StaticResource txtboxLastName}" 
-                         Tag="Last name" Canvas.Left="255" Canvas.Top="110"
-                      Text="{Binding CurrentUser.FirstName}" Margin="0 10 0 0"/>
-
-                <TextBox Width="280" Style="{StaticResource txtboxEmail}" 
-                         Tag="example@stepit.az" Canvas.Left="255" Canvas.Top="175"
-                      Text="{Binding CurrentUser.FirstName}" Margin="0 10 0 0"/>
-
-                <TextBox Width="280" Style="{StaticResource txtboxConfirmCode}" 
-                         Tag="enter code here.." Margin="0 10 0 0"/>
-
-                <Button  Width="200" Height="60" Content="Sign Up" 
-                    FontFamily="Times New Roman"
-                    FontSize="17" Background="Transparent" 
-                    Command="{Binding SignUp}" Foreground="White"
-                     Margin="0 40 0 0"/>
-
-            </StackPanel>
-        </Border>-->
-
     </Grid>
 </UserControl>

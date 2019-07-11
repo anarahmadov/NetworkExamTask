@@ -126,6 +126,18 @@ namespace MultiClientChatLast.ViewModels
             {
                 MainGrid.Children.Add(new CircularProgressBar());
             }
+            else if (type == typeof(ConfirmCodePage))
+            {
+                var index = MainGrid.Children.IndexOf(ProgressBar);
+
+                for (int i = 0, imax = MainGrid.Children.Count; i < imax; i++)
+                {
+                    if (i == index)
+                        continue;
+                    MainGrid.Children.RemoveAt(i);
+                }
+                MainGrid.Children.Add(new ConfirmCodePage(this));
+            }
         }
 
         #endregion
@@ -162,6 +174,11 @@ namespace MultiClientChatLast.ViewModels
         public void FireOnProgressing()
         {
             OnChangedPages(this, new MyEventArgs(typeof(CircularProgressBar)));
+        }
+
+        public void FireOnClickedConfirm()
+        {
+            OnChangedPages(this, new MyEventArgs(typeof(ConfirmCodePage)));
         }
         #endregion
 

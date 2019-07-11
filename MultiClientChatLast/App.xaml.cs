@@ -19,6 +19,9 @@ namespace MultiClientChatLast
     {
         public static Socket Socket { get; set; }
         public static string ContactsFilePath { get; set; }
+        public static User TryedUser { get; set; }
+        public static int SendedConfirmCode { get; set; }
+        public static int EnteredConfirmCode { get; set; }
 
         public App()
         {
@@ -41,6 +44,8 @@ namespace MultiClientChatLast
             //    break;
             //}
             #endregion
+
+            TryedUser = new User();
 
             CreateSpecialFile();
         }

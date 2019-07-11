@@ -40,7 +40,7 @@ namespace MultiClientChatLast.Extensions
                 MessageBox.Show("Please, fill the required spaces");
 
             return JsonConvert.DeserializeObject<List<User>>(File.ReadAllText(App.ContactsFilePath))
-                .SingleOrDefault(x => x.EmailAdress == user.EmailAdress);
+                .SingleOrDefault(x => x.EmailAddress == user.EmailAddress);
         }
     }
 }

@@ -72,15 +72,20 @@
     <Compile Include="Domain\Conversation.cs" />
     <Compile Include="Domain\Message.cs" />
     <Compile Include="Domain\User.cs" />
+    <Compile Include="Extensions\Check.cs" />
     <Compile Include="Extensions\CircularProgressBar.xaml.cs">
       <DependentUpon>CircularProgressBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\Config.cs" />
     <Compile Include="Extensions\TextInputToVisibilityConverter.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ConfirmCodePageVM.cs" />
     <Compile Include="ViewModels\LoginPageVM.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\RegistrationVM.cs" />
+    <Compile Include="Views\ConfirmCodePage.xaml.cs">
+      <DependentUpon>ConfirmCodePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConversationsPage.xaml.cs">
       <DependentUpon>ConversationsPage.xaml</DependentUpon>
     </Compile>
@@ -113,7 +118,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Styles\Colors.xaml">
+    <Page Include="Views\ConfirmCodePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
