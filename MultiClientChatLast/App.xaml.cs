@@ -18,7 +18,9 @@ namespace MultiClientChatLast
     /// </summary>
     public partial class App : Application
     {
-        public static Socket Socket { get; set; }
+        public static TcpClient Client { get; set; }
+        private static int port = 25655;
+
         public static string ContactsFilePath { get; set; }
         public static User TryedUser { get; set; }
         public static long SendedConfirmCode { get; set; }
@@ -30,8 +32,31 @@ namespace MultiClientChatLast
 
         public App()
         {
+            #region Connect with TCPClient
+
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("10.1.16.11"), port);
+            Client = new TcpClient();
+            Client.Connect(endPoint);
+
+            while (!Client.Connected)
+            {
+                try
+                {
+                    Client.Connect(endPoint);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("NOT CONNECTED");;
+                    continue;
+                }
+                MessageBox.Show("CONNECTED");
+                break;
+            }
+
+            #endregion
+
             #region temporary
-            //IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("192.168.1.108"), 1031);
+            //IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("10.1.16.11"), 1031);
             //Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             //while (!Socket.Connected)
@@ -52,11 +77,12 @@ namespace MultiClientChatLast
 
             TryedUser = new User();
 
-            RegistratedUsers = new List<User>();
-
             CreateSpecialFile();
 
-            RegistratedUsers = Config.GetAllUsers();
+            if (Config.GetAllUsers() == null)
+                RegistratedUsers = new List<User>();
+            else
+                RegistratedUsers = Config.GetAllUsers();
         }
 
         private void CreateSpecialFile()

@@ -10,11 +10,11 @@ namespace MultiClientChatLast.ClassesAboutChat
 {
     public class ChatController
     {
-        MainWindowViewModel viewmodel;
+        MessagesPageVM viewmodel;
 
         byte[] buffer = new byte[1024];
 
-        public ChatController(MainWindowViewModel viewmodel)
+        public ChatController(MessagesPageVM viewmodel)
         {
             this.viewmodel = viewmodel;
         }
@@ -25,9 +25,9 @@ namespace MultiClientChatLast.ClassesAboutChat
             {
                 while (true)
                 {
-                    if (App.Socket.Connected)
+                    if (App.Client.Connected)
                     {
-                        int length = App.Socket.Receive(buffer);
+                        int length = App.Client.Client.Receive(buffer);
 
                         if (length != 0)
                         {
@@ -51,7 +51,7 @@ namespace MultiClientChatLast.ClassesAboutChat
         {
             Task senderTask = Task.Run(() =>
             {
-                App.Socket.Send(Encoding.ASCII.GetBytes(viewmodel.SendedMessage.Content));
+                App.Client.Client.Send(Encoding.ASCII.GetBytes(viewmodel.SendedMessage.Content));
             });
 
             Task.WaitAll(senderTask);

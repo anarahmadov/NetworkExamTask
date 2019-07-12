@@ -1,6 +1,7 @@
 ﻿using MultiClientChatLast.Extensions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -9,13 +10,22 @@ using System.Windows;
 
 namespace MultiClientChatLast.ViewModels
 {
-    public class LoginPageVM
+    public class LoginPageVM : BaseViewModel
     {
         // object of MainViewModel
         MainWindowViewModel mainViewModel;
 
         // entered email address
-        public string EmailAddress { get; set; }
+        private string emailAddress;
+        public string EmailAddress
+        {
+            get => emailAddress;
+            set
+            {
+                emailAddress = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(EmailAddress)));
+            }
+        }
 
         public LoginPageVM(MainWindowViewModel viewModel)
         {
@@ -38,6 +48,16 @@ namespace MultiClientChatLast.ViewModels
                 App.SendedConfirmCode = Check.SendConfirmCode(EmailAddress);               
 
                 App.ConfirmPagesType = ConfirmPages.Login;
+            }
+            else if (EmailAddress == null)
+            {
+                MessageBox.Show("Please, fill email address space");
+                EmailAddress = null;
+            }
+            else
+            {
+                MessageBox.Show("This email address was not registrated");
+                EmailAddress = null;
             }
         });
     }

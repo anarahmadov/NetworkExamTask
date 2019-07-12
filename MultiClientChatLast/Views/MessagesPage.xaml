@@ -67,15 +67,11 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-
-        <Grid.Background>
-            <ImageBrush ImageSource="/Images\wallpaller2.jpg"/>
-        </Grid.Background>
 
         <WrapPanel Grid.Row="1" Height="40">
             <TextBox Margin="10 0 0 0" FontSize="20"                                                  

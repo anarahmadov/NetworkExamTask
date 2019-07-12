@@ -82,6 +82,7 @@
     <Compile Include="ViewModels\ConfirmCodePageVM.cs" />
     <Compile Include="ViewModels\LoginPageVM.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MessagesPageVM.cs" />
     <Compile Include="ViewModels\RegistrationVM.cs" />
     <Compile Include="Views\ConfirmCodePage.xaml.cs">
       <DependentUpon>ConfirmCodePage.xaml</DependentUpon>

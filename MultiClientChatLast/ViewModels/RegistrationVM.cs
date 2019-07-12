@@ -23,13 +23,30 @@ namespace MultiClientChatLast.ViewModels
 
         public MainCommand SignUp => new MainCommand((body) =>
         {
-            App.TryedUser = CurrentUser;
+            if (CurrentUser.EmailAddress != null &&
+            CurrentUser.FirstName != null &&
+            CurrentUser.LastName != null)
+            {
+                if (!Check.isRegistrated(CurrentUser.EmailAddress))
+                {
+                    App.TryedUser = CurrentUser;
 
-            App.SendedConfirmCode = Check.SendConfirmCode(App.TryedUser.EmailAddress);
+                    App.SendedConfirmCode = Check.SendConfirmCode(App.TryedUser.EmailAddress);
 
-            App.ConfirmPagesType = ConfirmPages.Registration;
+                    App.ConfirmPagesType = ConfirmPages.Registration;
 
-            mainViewModel.FireOnClickedSignUp();           
+                    mainViewModel.FireOnClickedSignUp();
+                }
+                else
+                    MessageBox.Show("This email was already registrated");
+            }
+            else
+                MessageBox.Show("Please, fill the compulsory area");
+        });
+
+        public MainCommand Back => new MainCommand((body) =>
+        {
+            mainViewModel.FireOnClickedBack();
         });
 
         public RegistrationVM(MainWindowViewModel viewModel)

@@ -17,17 +17,6 @@ namespace MultiClientChatLast.ViewModels
     {
         #region properties and fields
 
-        private ObservableCollection<Message> allMessages;
-        public ObservableCollection<Message> AllMessages
-        {
-            get => allMessages;
-            set
-            {
-                allMessages = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(AllMessages)));
-            }
-        }
-
         // custom events
         public delegate void MyEventHandler(object sender, MyEventArgs args);
         public event MyEventHandler OnChangedPages;
@@ -50,44 +39,13 @@ namespace MultiClientChatLast.ViewModels
         //progressbar object
         public CircularProgressBar ProgressBar { get; set; }
 
-        private Message sendedMessage;
-        public Message SendedMessage
-        {
-            get => sendedMessage;
-            set
-            {
-                sendedMessage = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(SendedMessage)));
-            }
-        }
-
-        public Message ReceviedMessage { get; set; }
-
-        // for send & receive sended data
-        ChatController controller => new ChatController(this);
-
         // The file that all users stored in
         Config config = new Config();
 
         #endregion
 
-        public MainCommand Send => new MainCommand((body) =>
-        {
-            if (SendedMessage.Content != null)
-            {
-                AllMessages.Add(SendedMessage);
-                controller.SendMessage();
-                SendedMessage = new Message();
-            }
-        });
-
         public MainWindowViewModel()
-        {
-            ReceviedMessage = new Message();
-            SendedMessage = new Message();
-            //controller.ReceivingMessages();
-            AllMessages = new ObservableCollection<Message>();
-
+        {            
             // sucscribe events
             OnChangedPages = new MyEventHandler(MainWindowViewModel_OnChangedPages);
         }
@@ -197,6 +155,11 @@ namespace MultiClientChatLast.ViewModels
         public void FireOnProgressing()
         {
             OnChangedPages(this, new MyEventArgs(typeof(CircularProgressBar)));
+        }
+
+        public void FireOnClickedBack()
+        {
+            OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
         }
 
         public void FireOnClickedConfirm(ConfirmPages confirmPageType)

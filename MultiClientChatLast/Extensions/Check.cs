@@ -15,28 +15,38 @@ namespace MultiClientChatLast.Extensions
 
         public static long SendConfirmCode(string emailAddress)
         {
-            long confirmCode = random.Next();
-
-            Task.Run(() =>
+            if (emailAddress != null)
             {
-                string mailBodyhtml =
-                    $"<h1>Confirm code </h1><p1>{confirmCode}</p1>";
-                var msg = new MailMessage("anar.axmed5514@gmail.com", emailAddress, "Authorization Code", mailBodyhtml);
-                msg.IsBodyHtml = true;
+                long confirmCode = random.Next();
 
-                var smtpClient = new SmtpClient("smtp.gmail.com", 587);
-                smtpClient.UseDefaultCredentials = true;
-                smtpClient.Credentials = new NetworkCredential("anar.axmed5514@gmail.com", "anaranar888");
-                smtpClient.EnableSsl = true;
-                smtpClient.Send(msg);
+                Task.Run(() =>
+                {
+                    string mailBodyhtml =
+                        $"<h1>Confirm code </h1><p1>{confirmCode}</p1>";
+                    var msg = new MailMessage("anar.axmed5514@gmail.com", emailAddress, "Authorization Code", mailBodyhtml);
+                    msg.IsBodyHtml = true;
 
-            });
+                    var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+                    smtpClient.UseDefaultCredentials = true;
+                    smtpClient.Credentials = new NetworkCredential("anar.axmed5514@gmail.com", "anaranar888");
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Send(msg);
 
-            return confirmCode;
+                });
+
+                return confirmCode;
+            }
+
+            return 0;
         }
 
         public static bool isRegistrated(string emailAddress)
         {
+            if (App.RegistratedUsers == null)
+            {
+                return false;
+            }
+
             var result = App.RegistratedUsers.SingleOrDefault(x => x.EmailAddress == emailAddress);
 
             return result == null ? false : true;

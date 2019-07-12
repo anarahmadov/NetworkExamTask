@@ -31,54 +31,65 @@ namespace MultiClientChatLast.ViewModels
         Config config = new Config();
 
         public MainCommand Confirm => new MainCommand((body) =>
-        {           
+        {
             Task.Run(() =>
             {
-                App.Current.Dispatcher.Invoke(() =>
+                if (ConfirmCode != null)
                 {
-                    mainViewModel.ProgressBarState = Visibility.Visible;
-                });
 
-                Thread.Sleep(1000);
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        mainViewModel.ProgressBarState = Visibility.Visible;
+                    });
 
-                // check that it is which of confirmpage of page
-                switch (App.ConfirmPagesType)
-                {
-                    case ConfirmPages.Registration:
-                        App.Current.Dispatcher.Invoke(() =>
-                        {
-                            App.EnteredConfirmCode = int.Parse(ConfirmCode);
+                    Thread.Sleep(1000);
 
-                            if (App.EnteredConfirmCode == App.SendedConfirmCode)
+                    // check that it is which of confirmpage of page
+                    switch (App.ConfirmPagesType)
+                    {
+                        case ConfirmPages.Registration:
+                            App.Current.Dispatcher.Invoke(() =>
                             {
-                                mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
-                                App.RegistratedUsers.Add(App.TryedUser);
-                                config.SaveToFile(App.TryedUser);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Invalid confirm code");
-                                ConfirmCode = null;
-                            }
-                        });
-                        break;
-                    case ConfirmPages.Login:
-                        App.Current.Dispatcher.Invoke(() =>
-                        {
-                            App.EnteredConfirmCode = int.Parse(ConfirmCode);
+                                App.EnteredConfirmCode = int.Parse(ConfirmCode);
 
-                            if(App.EnteredConfirmCode == App.SendedConfirmCode)
+                                if (App.EnteredConfirmCode == App.SendedConfirmCode)
+                                {
+                                    mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
+                                    App.RegistratedUsers.Add(App.TryedUser);
+                                    config.SaveToFile(App.TryedUser);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Invalid confirm code");
+                                    ConfirmCode = null;
+                                }
+                            });
+                            break;
+                        case ConfirmPages.Login:
+                            App.Current.Dispatcher.Invoke(() =>
                             {
-                                mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
-                            }
-                        });
-                        break;
+                                App.EnteredConfirmCode = int.Parse(ConfirmCode);
+
+                                if (App.EnteredConfirmCode == App.SendedConfirmCode)
+                                {
+                                    mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Invalid confirm code");
+                                    ConfirmCode = null;
+                                }
+                            });
+                            break;
+                    }
+
+                    App.Current.Dispatcher.Invoke(() =>
+                    {
+                        mainViewModel.ProgressBarState = Visibility.Hidden;
+                    });
                 }
-
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    mainViewModel.ProgressBarState = Visibility.Hidden;
-                });
+                else
+                    MessageBox.Show("Enter confirm code");
 
             });
 
