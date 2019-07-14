@@ -1,5 +1,6 @@
 ﻿using MultiClientChatLast.ClassesAboutChat;
 using MultiClientChatLast.Domain;
+using MultiClientChatLast.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,13 @@ namespace MultiClientChatLast.ViewModels
 {
     public class MessagesPageVM : BaseViewModel
     {
+        // chat page viewmodel object
+        private ChatPageVM chatVM;
+
+        // current user name
+        public string toUser;
+
+        // all messages 
         private ObservableCollection<Message> allMessages;
         public ObservableCollection<Message> AllMessages
         {
@@ -23,7 +31,8 @@ namespace MultiClientChatLast.ViewModels
             }
         }
 
-        private Message sendedMessage;
+        // typed message
+        private Message sendedMessage = new Message();
         public Message SendedMessage
         {
             get => sendedMessage;
@@ -34,17 +43,19 @@ namespace MultiClientChatLast.ViewModels
             }
         }
 
-        public Message ReceviedMessage { get; set; }
+        // received message
+        public Message ReceviedMessage { get; set; } = new Message();
 
         // for send & receive sended data
         ChatController controller => new ChatController(this);
 
-        public MessagesPageVM()
+        public MessagesPageVM(ChatPageVM chatVM)
         {
-            ReceviedMessage = new Message();
-            SendedMessage = new Message();
-            controller.ReceivingMessages();
-            AllMessages = new ObservableCollection<Message>();
+            //controller.ReceivingMessages();
+
+            LoadMessages();
+
+            this.chatVM = chatVM;
         }
 
         public MainCommand Send => new MainCommand((body) =>
@@ -56,5 +67,16 @@ namespace MultiClientChatLast.ViewModels
                 SendedMessage = new Message();
             }
         });
+
+        #region additional methods
+
+        private void LoadMessages()
+        {
+            AllMessages = new ObservableCollection<Message>(chatVM.SelectedConversation.Messages);
+
+            toUser = chatVM.SelectedConversation.FirstName;
+        }
+
+        #endregion
     }
 }

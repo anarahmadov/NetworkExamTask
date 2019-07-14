@@ -36,7 +36,6 @@ namespace MultiClientChatLast.ViewModels
             {
                 if (ConfirmCode != null)
                 {
-
                     App.Current.Dispatcher.Invoke(() =>
                     {
                         mainViewModel.ProgressBarState = Visibility.Visible;
@@ -48,38 +47,14 @@ namespace MultiClientChatLast.ViewModels
                     switch (App.ConfirmPagesType)
                     {
                         case ConfirmPages.Registration:
-                            App.Current.Dispatcher.Invoke(() =>
-                            {
-                                App.EnteredConfirmCode = int.Parse(ConfirmCode);
 
-                                if (App.EnteredConfirmCode == App.SendedConfirmCode)
-                                {
-                                    mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
-                                    App.RegistratedUsers.Add(App.TryedUser);
-                                    config.SaveToFile(App.TryedUser);
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Invalid confirm code");
-                                    ConfirmCode = null;
-                                }
-                            });
+                            SignUpConfirmOperations();
+
                             break;
                         case ConfirmPages.Login:
-                            App.Current.Dispatcher.Invoke(() =>
-                            {
-                                App.EnteredConfirmCode = int.Parse(ConfirmCode);
 
-                                if (App.EnteredConfirmCode == App.SendedConfirmCode)
-                                {
-                                    mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Invalid confirm code");
-                                    ConfirmCode = null;
-                                }
-                            });
+                            SignInConfirmOperations();
+
                             break;
                     }
 
@@ -92,8 +67,47 @@ namespace MultiClientChatLast.ViewModels
                     MessageBox.Show("Enter confirm code");
 
             });
-
         });
+
+        private void SignUpConfirmOperations()
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                App.EnteredConfirmCode = int.Parse(ConfirmCode);
+
+                if (App.EnteredConfirmCode == App.SendedConfirmCode)
+                {
+                    mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
+                    App.RegistratedUsers.Add(App.TryedUser);
+                    config.SaveToFile(App.TryedUser);
+                }
+                else
+                {
+                    MessageBox.Show("Invalid confirm code");
+                    ConfirmCode = null;
+                }
+            });
+
+        }
+
+        private void SignInConfirmOperations()
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                App.EnteredConfirmCode = int.Parse(ConfirmCode);
+
+                if (App.EnteredConfirmCode == App.SendedConfirmCode)
+                {
+                    mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
+                    App.UserOnSystem = App.TryedUser;
+                }
+                else
+                {
+                    MessageBox.Show("Invalid confirm code");
+                    ConfirmCode = null;
+                }
+            });
+        }
 
         public ConfirmCodePageVM(MainWindowViewModel viewModel)
         {

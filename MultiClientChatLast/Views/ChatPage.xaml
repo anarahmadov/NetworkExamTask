@@ -1,0 +1,119 @@
+﻿<UserControl x:Class="MultiClientChatLast.Views.ChatPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MultiClientChatLast.Views"
+             xmlns:local2="clr-namespace:MultiClientChatLast.Extensions"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:i2="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="422" d:DesignWidth="800" Background="White" Opacity="0.5">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local2:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter"/>
+
+        <Style TargetType="{x:Type TextBox}" x:Key="txtboxSearch">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border BorderBrush="{x:Null}" BorderThickness="1" Height="50" 
+                                    Width="200" Background="Black" 
+                                    CornerRadius="10" Opacity="0.4">
+                            <Grid>
+                                <TextBlock Text="{TemplateBinding Tag}" Foreground="Gray" Margin="37 15 0 0" 
+                                           FontSize="17" FontFamily="Times New Roman" Opacity="042">
+                                    <TextBlock.Visibility>
+                                        <MultiBinding Converter="{StaticResource TextInputToVisibilityConverter}">
+                                            <Binding ElementName="txtbox" Path="Text.IsEmpty" />
+                                            <Binding ElementName="txtbox" Path="IsFocused" />
+                                        </MultiBinding>
+                                    </TextBlock.Visibility>
+                                </TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Icons\parol.png" Width="20" 
+                                               Margin ="5 0 0 0" Height="20"/>
+                                    <TextBox Name="txtbox" Width="180" Height="40" 
+                                             Foreground="White" Background="Transparent"
+                                             CaretBrush="White" BorderThickness="3" BorderBrush="Black"
+                                             VerticalContentAlignment="Center" Margin="5,0,15,0"
+                                             FontSize="18" FontFamily="Times New Roman" 
+                                             />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="270"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+            <ListView Grid.Row="1" 
+                      ItemsSource="{Binding BindingList}"
+                      SelectedItem="{Binding BindingItem}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumnHeader Height="55" >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Width="40" Height="27" Style="{x:Null}" 
+                                            Margin="-7 -5 0 0" Command="{Binding LogOut}">
+                                        <materialDesign:PackIcon Kind="ExitToApp"/>
+                                    </Button>
+
+                                </Grid>
+                            </GridViewColumnHeader>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Height="50">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+
+                                        <Image Grid.RowSpan="2" Grid.Column="0" 
+                                               Source="/Icons\user3.png" Width="40" Height="35"
+                                               Margin="-10 0 0 0"/>
+
+                                        <WrapPanel Grid.Column="1" Grid.Row="0">
+                                            <Label Content="{Binding FirstName}" Width="130"
+                                                   Margin="0 -5 0 0" />
+                                            <Label Margin="35 -5 0 0"  Content="18:30"/>
+                                        </WrapPanel>
+
+                                        <TextBlock Grid.Column="1" Grid.Row="1"/>
+
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <Grid Name="rightSide" Grid.Column="1">
+            <!--<local:MessagesPage/>-->
+        </Grid>
+
+    </Grid>
+</UserControl>

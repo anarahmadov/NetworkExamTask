@@ -45,7 +45,7 @@ namespace MultiClientChatLast.ViewModels
 
                 App.TryedUser = App.RegistratedUsers.SingleOrDefault(x => x.EmailAddress == EmailAddress);
 
-                App.SendedConfirmCode = Check.SendConfirmCode(EmailAddress);               
+                App.SendedConfirmCode = Check.SendConfirmCode(EmailAddress);
 
                 App.ConfirmPagesType = ConfirmPages.Login;
             }

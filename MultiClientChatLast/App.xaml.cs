@@ -22,7 +22,7 @@ namespace MultiClientChatLast
         private static int port = 25655;
 
         public static string ContactsFilePath { get; set; }
-        public static User TryedUser { get; set; }
+        public static User TryedUser { get; set; } = new User();
         public static long SendedConfirmCode { get; set; }
         public static long EnteredConfirmCode { get; set; }
 
@@ -30,72 +30,61 @@ namespace MultiClientChatLast
 
         public static ConfirmPages ConfirmPagesType { get; set; }
 
+        // Current user on system
+        public static User UserOnSystem { get; set; } = new User();
+
         public App()
         {
-            #region Connect with TCPClient
+            #region Connect to SERVER
 
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("10.1.16.11"), port);
-            Client = new TcpClient();
-            Client.Connect(endPoint);
+            //IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("192.168.1.102"), port);
+            //Client = new TcpClient();
+            //Client.Connect(endPoint);
 
-            while (!Client.Connected)
-            {
-                try
-                {
-                    Client.Connect(endPoint);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("NOT CONNECTED");;
-                    continue;
-                }
-                MessageBox.Show("CONNECTED");
-                break;
-            }
-
-            #endregion
-
-            #region temporary
-            //IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("10.1.16.11"), 1031);
-            //Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            //while (!Socket.Connected)
+            //while (!Client.Connected)
             //{
             //    try
             //    {
-            //        Socket.Connect(endPoint);
+            //        Client.Connect(endPoint);
             //    }
             //    catch (Exception)
             //    {
-            //        Console.WriteLine("NOT CONNECTED");
+            //        MessageBox.Show("NOT CONNECTED"); ;
             //        continue;
             //    }
-            //    Console.WriteLine("CONNECTED");
+            //    MessageBox.Show("CONNECTED");
             //    break;
             //}
+
             #endregion
 
-            TryedUser = new User();
+            #region calling method which creates special file
 
             CreateSpecialFile();
 
-            if (Config.GetAllUsers() == null)
+            #endregion
+
+            #region initialize already registrated users
+
+            var list = Config.GetAllUsers();
+
+            if (list == null)
                 RegistratedUsers = new List<User>();
             else
-                RegistratedUsers = Config.GetAllUsers();
+                RegistratedUsers = list;
+
+            #endregion
         }
 
         private void CreateSpecialFile()
         {
-            var di = Directory.CreateDirectory($@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\WhatsappJunior");
+            //var di = Directory.CreateDirectory($@"{Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)}\WhatsappJunior");
 
-            ContactsFilePath = $@"{di.FullName}\contacts.json";
+            ContactsFilePath = @"contacts.json";
 
             if (!File.Exists(ContactsFilePath))
             {
-                using (var sw = new StreamWriter(ContactsFilePath))
-                {
-                }
+                File.Create(ContactsFilePath);
             }
         }
     }

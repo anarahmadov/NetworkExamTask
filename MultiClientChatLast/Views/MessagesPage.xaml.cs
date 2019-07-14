@@ -21,11 +21,11 @@ namespace MultiClientChatLast.Views
     /// </summary>
     public partial class MessagesPage : UserControl
     {
-        public MessagesPage()
+        public MessagesPage(ChatPageVM chatVM)
         {
             InitializeComponent();
 
-            DataContext = new MessagesPageVM();
+            DataContext = new MessagesPageVM(chatVM);
         }
 
     }

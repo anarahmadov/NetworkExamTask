@@ -1,13 +1,7 @@
-﻿using MultiClientChatLast.Domain;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using MultiClientChatLast.ClassesAboutChat;
+﻿using System.ComponentModel;
 using System.Windows.Controls;
 using MultiClientChatLast.Views;
-using System.Threading;
 using System.Windows;
-using System.Threading.Tasks;
-using System;
 using MultiClientChatLast.CustomEvents;
 using MultiClientChatLast.Extensions;
 
@@ -60,6 +54,7 @@ namespace MultiClientChatLast.ViewModels
         #endregion
 
         #region additional methods
+
         private void SetPage(MyEventArgs e)
         {
             var type = e.GetTypeOfNext();
@@ -90,6 +85,19 @@ namespace MultiClientChatLast.ViewModels
                 MainGrid.Children.Add(new RegistrationPage(this));
             }
 
+            else if (type == typeof(ChatPage))
+            {
+                var index = MainGrid.Children.IndexOf(ProgressBar);
+
+                for (int i = 0, imax = MainGrid.Children.Count; i < imax; i++)
+                {
+                    if (i == index)
+                        continue;
+                    MainGrid.Children.RemoveAt(i);
+                }
+                MainGrid.Children.Add(new ChatPage(this));
+            }
+
             else if (type == typeof(ConfirmCodePage))
             {
                 var index = MainGrid.Children.IndexOf(ProgressBar);
@@ -103,19 +111,6 @@ namespace MultiClientChatLast.ViewModels
                 MainGrid.Children.Add(new ConfirmCodePage(this));
             }
 
-            else if (type == typeof(MessagesPage))
-            {
-                var index = MainGrid.Children.IndexOf(ProgressBar);
-
-                for (int i = 0, imax = MainGrid.Children.Count; i < imax; i++)
-                {
-                    if (i == index)
-                        continue;
-                    MainGrid.Children.RemoveAt(i);
-                }
-                MainGrid.Children.Add(new MessagesPage());
-            }
-
             else if (type == typeof(CircularProgressBar))
             {
                 MainGrid.Children.Add(new CircularProgressBar());
@@ -127,15 +122,7 @@ namespace MultiClientChatLast.ViewModels
 
         public MainCommand Start => new MainCommand((body) =>
         {
-            var index = MainGrid.Children.IndexOf(ProgressBar);
-
-            for (int i = 0, imax = MainGrid.Children.Count; i < imax; i++)
-            {
-                if (i == index)
-                    continue;
-                MainGrid.Children.RemoveAt(i);
-            }
-            MainGrid.Children.Add(new LoginPage(this));
+            FireOnClickedStart();
         });
 
         #endregion
@@ -162,12 +149,17 @@ namespace MultiClientChatLast.ViewModels
             OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
         }
 
+        public void FireOnClickedLogLout()
+        {
+            OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
+        }
+
         public void FireOnClickedConfirm(ConfirmPages confirmPageType)
         {           
             switch (confirmPageType)
             {
                 case ConfirmPages.Login:
-                    OnChangedPages(this, new MyEventArgs(typeof(MessagesPage)));
+                    OnChangedPages(this, new MyEventArgs(typeof(ChatPage)));
                     break;
                 case ConfirmPages.Registration:
                     OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
@@ -178,6 +170,11 @@ namespace MultiClientChatLast.ViewModels
         public void FireOnClickedSignIn()
         {
             OnChangedPages(this, new MyEventArgs(typeof(ConfirmCodePage)));
+        }
+
+        public void FireOnClickedStart()
+        {
+            OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
         }
 
         #endregion

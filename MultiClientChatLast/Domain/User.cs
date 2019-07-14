@@ -13,6 +13,6 @@ namespace MultiClientChatLast.Domain
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
 
-        public List<Message> Conversations { get; set; }
+        public List<Conversation> Conversations { get; set; }
     }
 }
