@@ -53,9 +53,9 @@ namespace MultiClientChatLast.ViewModels
         {
             //controller.ReceivingMessages();
 
-            LoadMessages();
-
             this.chatVM = chatVM;
+
+            LoadMessages();
         }
 
         public MainCommand Send => new MainCommand((body) =>
@@ -63,7 +63,15 @@ namespace MultiClientChatLast.ViewModels
             if (SendedMessage.Content != null)
             {
                 AllMessages.Add(SendedMessage);
-                controller.SendMessage();
+
+                App.UserOnSystem.Conversations.Single(x => x.ToUser == chatVM.SelectedConversation.ToUser).Messages = new List<Message>()
+                {
+                    new Message()
+                    {
+                        Content = SendedMessage.Content
+                    }
+                };
+                //controller.SendMessage();
                 SendedMessage = new Message();
             }
         });
@@ -72,9 +80,14 @@ namespace MultiClientChatLast.ViewModels
 
         private void LoadMessages()
         {
-            AllMessages = new ObservableCollection<Message>(chatVM.SelectedConversation.Messages);
+            if (chatVM.SelectedConversation.Messages != null)
+            {
+                AllMessages = new ObservableCollection<Message>(chatVM.SelectedConversation.Messages);
+            }
+            else
+                AllMessages = new ObservableCollection<Message>();
 
-            toUser = chatVM.SelectedConversation.FirstName;
+            toUser = chatVM.SelectedConversation.ToUser;
         }
 
         #endregion

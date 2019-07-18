@@ -14,10 +14,13 @@ namespace MultiClientChatLast.Views
         {
             InitializeComponent();
 
+            RightSide = rightSide;
             ChatPageVM vm = new ChatPageVM(viewModel);
-            vm.RightSideGrid = rightSide;
+            // vm.RightSideGrid = rightSide;
 
             DataContext = vm;
         }
+
+        public static Grid RightSide { get; set; }
     }
 }

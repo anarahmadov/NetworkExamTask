@@ -9,7 +9,7 @@ namespace MultiClientChatLast.Domain
     public class Conversation
     {
         public int Id { get; set; }
-        public string FirstName { get; set; }
+        public string ToUser { get; set; }
 
         public List<Message> Messages { get; set; }
     }

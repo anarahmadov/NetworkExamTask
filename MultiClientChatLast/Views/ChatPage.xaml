@@ -57,8 +57,8 @@
 
         <Grid>
             <ListView Grid.Row="1" 
-                      ItemsSource="{Binding BindingList}"
-                      SelectedItem="{Binding BindingItem}">
+                      ItemsSource="{Binding OccuredConversations}"
+                      SelectedItem="{Binding SelectedConversation}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>
@@ -94,7 +94,7 @@
                                                Margin="-10 0 0 0"/>
 
                                         <WrapPanel Grid.Column="1" Grid.Row="0">
-                                            <Label Content="{Binding FirstName}" Width="130"
+                                            <Label Content="{Binding ToUser}" Width="130"
                                                    Margin="0 -5 0 0" />
                                             <Label Margin="35 -5 0 0"  Content="18:30"/>
                                         </WrapPanel>
