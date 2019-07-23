@@ -22,7 +22,7 @@ namespace MultiClientChatLast.Extensions
                 Task.Run(() =>
                 {
                     string mailBodyhtml =
-                        $"<h1>Confirm code </h1><p1>{confirmCode}</p1>";
+                        $"<h2> Your confirm code : </h2><p1>{confirmCode}</p1>";
                     var msg = new MailMessage("anar.axmed5514@gmail.com", emailAddress, "Authorization Code", mailBodyhtml);
                     msg.IsBodyHtml = true;
 

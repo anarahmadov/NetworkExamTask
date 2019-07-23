@@ -42,8 +42,13 @@ namespace MultiClientChatLast.ViewModels
             if (Check.isRegistrated(EmailAddress))
             {
                 mainViewModel.FireOnClickedSignIn();
+              
+                App.UserOnSystem = App.RegistratedUsers.SingleOrDefault(x => x.EmailAddress == EmailAddress);
 
-                App.TryedUser = App.RegistratedUsers.SingleOrDefault(x => x.EmailAddress == EmailAddress);
+                App.UserOnSystem.IPAddress = App.LocalIPAddress;
+
+                //save user to file
+                Config.SaveToFile(App.UserOnSystem);
 
                 App.SendedConfirmCode = Check.SendConfirmCode(EmailAddress);
 

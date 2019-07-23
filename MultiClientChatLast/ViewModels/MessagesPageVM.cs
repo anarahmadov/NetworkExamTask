@@ -1,5 +1,6 @@
 ﻿using MultiClientChatLast.ClassesAboutChat;
 using MultiClientChatLast.Domain;
+using MultiClientChatLast.Extensions;
 using MultiClientChatLast.Views;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,19 @@ namespace MultiClientChatLast.ViewModels
     public class MessagesPageVM : BaseViewModel
     {
         // chat page viewmodel object
-        private ChatPageVM chatVM;
+        public ChatPageVM chatVM;
 
         // current user name
-        public string toUser;
+        private string toUser;
+        public string ToUser
+        {
+            get => toUser;
+            set
+            {
+                toUser = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ToUser)));
+            }
+        }
 
         // all messages 
         private ObservableCollection<Message> allMessages;
@@ -51,7 +61,7 @@ namespace MultiClientChatLast.ViewModels
 
         public MessagesPageVM(ChatPageVM chatVM)
         {
-            //controller.ReceivingMessages();
+            controller.ReceivingMessages();
 
             this.chatVM = chatVM;
 
@@ -64,14 +74,16 @@ namespace MultiClientChatLast.ViewModels
             {
                 AllMessages.Add(SendedMessage);
 
-                App.UserOnSystem.Conversations.Single(x => x.ToUser == chatVM.SelectedConversation.ToUser).Messages = new List<Message>()
+                chatVM.OccuredConversations.Single(x => x.ToUser == chatVM.SelectedConversation.ToUser).Messages.Add(new Message()
                 {
-                    new Message()
-                    {
-                        Content = SendedMessage.Content
-                    }
-                };
-                //controller.SendMessage();
+                    Content = SendedMessage.Content
+                });
+
+                // save to file
+                Config.SaveToFile(App.UserOnSystem);
+
+                controller.SendMessage();
+
                 SendedMessage = new Message();
             }
         });
@@ -80,12 +92,7 @@ namespace MultiClientChatLast.ViewModels
 
         private void LoadMessages()
         {
-            if (chatVM.SelectedConversation.Messages != null)
-            {
-                AllMessages = new ObservableCollection<Message>(chatVM.SelectedConversation.Messages);
-            }
-            else
-                AllMessages = new ObservableCollection<Message>();
+            AllMessages = new ObservableCollection<Message>(chatVM.SelectedConversation.Messages);
 
             toUser = chatVM.SelectedConversation.ToUser;
         }

@@ -12,6 +12,17 @@ namespace MultiClientChatLast.Domain
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
+        public string IPAddress { get; set; }
+
+        public User Clone()
+        {
+            User user = new User();
+            this.Id = user.Id;
+            this.FirstName = user.FirstName;
+            this.LastName = user.LastName;
+            this.EmailAddress = user.EmailAddress;
+            return user;
+        }
 
         public List<Conversation> Conversations { get; set; }
     }

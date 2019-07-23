@@ -12,7 +12,7 @@ namespace MultiClientChatLast.ClassesAboutChat
     {
         MessagesPageVM viewmodel;
 
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[11000000];
 
         public ChatController(MessagesPageVM viewmodel)
         {
@@ -51,7 +51,11 @@ namespace MultiClientChatLast.ClassesAboutChat
         {
             Task senderTask = Task.Run(() =>
             {
-                App.Client.Client.Send(Encoding.ASCII.GetBytes(viewmodel.SendedMessage.Content));
+                var UserFirstName = viewmodel.chatVM.SelectedConversation.ToUser;
+
+                var message = $"{viewmodel.SendedMessage.Content} {App.LocalIPAddress} {App.RegistratedUsers.Single(x => x.FirstName == UserFirstName).IPAddress}";
+
+                App.Client.Client.Send(Encoding.ASCII.GetBytes(message));
             });
 
             Task.WaitAll(senderTask);

@@ -27,9 +27,6 @@ namespace MultiClientChatLast.ViewModels
             }
         }
 
-        // class for operations writing & reading to contacts file
-        Config config = new Config();
-
         public MainCommand Confirm => new MainCommand((body) =>
         {
             Task.Run(() =>
@@ -79,7 +76,7 @@ namespace MultiClientChatLast.ViewModels
                 {
                     mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
                     App.RegistratedUsers.Add(App.TryedUser);
-                    config.SaveToFile(App.TryedUser);
+                    Config.SaveToFile(App.TryedUser);
                 }
                 else
                 {
@@ -99,7 +96,6 @@ namespace MultiClientChatLast.ViewModels
                 if (App.EnteredConfirmCode == App.SendedConfirmCode)
                 {
                     mainViewModel.FireOnClickedConfirm(App.ConfirmPagesType);
-                    App.UserOnSystem = App.TryedUser;
                 }
                 else
                 {

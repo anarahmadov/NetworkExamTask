@@ -1,4 +1,5 @@
 ﻿using MultiClientChatLast.Domain;
+using MultiClientChatLast.Extensions;
 using MultiClientChatLast.Views;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace MultiClientChatLast.ViewModels
 {
@@ -61,11 +63,7 @@ namespace MultiClientChatLast.ViewModels
             {
                 selectedConversation = value;
 
-                if (selectedConversation != null)
-                {
-
-                    Control();
-                }
+                InitializeRightSide();
 
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(SelectedConversation)));
             }
@@ -79,7 +77,7 @@ namespace MultiClientChatLast.ViewModels
         {
             if (MessageBox.Show("Are you sure ?", "Warning", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                App.UserOnSystem = null;
+                App.UserOnSystem = new User();
                 mainViewModel.FireOnClickedLogLout();
             }
         });
@@ -90,22 +88,33 @@ namespace MultiClientChatLast.ViewModels
         {
             var list = App.RegistratedUsers;
 
-            for (int i = 0; i < list.Count; i++)
+            if (!HasConversation())
             {
-                occuredConversations.Add(new Conversation()
+                OccuredConversations = new List<Conversation>();
+
+                for (int i = 0; i < list.Count; i++)
                 {
-                    ToUser = list[i].FirstName
-                });
+                    OccuredConversations.Add(new Conversation()
+                    {
+                        ToUser = list[i].FirstName,
+                        Messages = new List<Message>()
+                    });
+                }
+
+                App.UserOnSystem.Conversations = OccuredConversations;
             }
+            else
+                OccuredConversations = App.UserOnSystem.Conversations;
 
-            App.UserOnSystem.Conversations = new List<Conversation>();
+            // save to file
+            Config.SaveToFile(App.UserOnSystem);
 
-           RightSideGrid = ChatPage.RightSide;
-            SelectedConversation = new Conversation();
+            RightSideGrid = ChatPage.RightSide;
+            SelectedConversation = new Conversation() { Messages = new List<Message>() };
             mainViewModel = viewModel;
         }
 
-        private void Control()
+        private void InitializeRightSide()
         {
             RightSideGrid.Children.Add(new MessagesPage(this));
         }
