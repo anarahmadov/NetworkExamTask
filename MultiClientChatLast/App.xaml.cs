@@ -2,6 +2,7 @@
 using MultiClientChatLast.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -37,26 +38,26 @@ namespace MultiClientChatLast
         {
             #region Connect to SERVER
 
-            LocalIPAddress = Config.GetLocalIPAddress();
+            //LocalIPAddress = Config.GetLocalIPAddress();
 
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(LocalIPAddress), port);
-            Client = new TcpClient();
-            Client.Connect(endPoint);
+            //IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(LocalIPAddress), port);
+            //Client = new TcpClient();
+            //Client.Connect(endPoint);
 
-            while (!Client.Connected)
-            {
-                try
-                {
-                    Client.Connect(endPoint);
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("NOT CONNECTED"); ;
-                    continue;
-                }
-                MessageBox.Show("CONNECTED");
-                break;
-            }
+            //while (!Client.Connected)
+            //{
+            //    try
+            //    {
+            //        Client.Connect(endPoint);
+            //    }
+            //    catch (Exception)
+            //    {
+            //        MessageBox.Show("NOT CONNECTED"); ;
+            //        continue;
+            //    }
+            //    MessageBox.Show("CONNECTED");
+            //    break;
+            //}
 
             #endregion
 
@@ -90,6 +91,7 @@ namespace MultiClientChatLast
             }
         }
     }
+
 
     public enum ConfirmPages
     {

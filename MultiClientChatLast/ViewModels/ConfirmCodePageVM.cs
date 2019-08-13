@@ -29,41 +29,46 @@ namespace MultiClientChatLast.ViewModels
 
         public MainCommand Confirm => new MainCommand((body) =>
         {
-            Task.Run(() =>
-            {
-                if (ConfirmCode != null)
-                {
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        mainViewModel.ProgressBarState = Visibility.Visible;
-                    });
+            mainViewModel.FireOnClickedConfirm(ConfirmPages.Registration);
 
-                    Thread.Sleep(1000);
+            #region real code
+            //Task.Run(() =>
+            //{
+            //    if (ConfirmCode != null)
+            //    {
+            //        App.Current.Dispatcher.Invoke(() =>
+            //        {
+            //            mainViewModel.ProgressBarState = Visibility.Visible;
+            //        });
 
-                    // check that it is which of confirmpage of page
-                    switch (App.ConfirmPagesType)
-                    {
-                        case ConfirmPages.Registration:
+            //        Thread.Sleep(1000);
 
-                            SignUpConfirmOperations();
+            //        // check that it is which of confirmpage of page
+            //        switch (App.ConfirmPagesType)
+            //        {
+            //            case ConfirmPages.Registration:
 
-                            break;
-                        case ConfirmPages.Login:
+            //                SignUpConfirmOperations();
 
-                            SignInConfirmOperations();
+            //                break;
+            //            case ConfirmPages.Login:
 
-                            break;
-                    }
+            //                SignInConfirmOperations();
 
-                    App.Current.Dispatcher.Invoke(() =>
-                    {
-                        mainViewModel.ProgressBarState = Visibility.Hidden;
-                    });
-                }
-                else
-                    MessageBox.Show("Enter confirm code");
+            //                break;
+            //        }
 
-            });
+            //        App.Current.Dispatcher.Invoke(() =>
+            //        {
+            //            mainViewModel.ProgressBarState = Visibility.Hidden;
+            //        });
+            //    }
+            //    else
+            //        MessageBox.Show("Enter confirm code");
+
+            //});
+
+            #endregion
         });
 
         private void SignUpConfirmOperations()

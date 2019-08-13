@@ -8,7 +8,7 @@
         xmlns:startPage="clr-namespace:MultiClientChatLast.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStyle="None" 
+        Title="MainWindow" Height="768" Width="1024" WindowStyle="None" 
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -17,7 +17,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="border"
-                            CornerRadius="10"
+                            CornerRadius="8"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}" 
@@ -35,7 +35,7 @@
                             <EventTrigger RoutedEvent="MouseEnter">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation To="Black" Duration="0:0:0.4" 
+                                        <ColorAnimation To="Black" Duration="0:0:0.1" 
                                                         Storyboard.TargetName="border" 
                                                         Storyboard.TargetProperty="Background.Color" />
                                     </Storyboard>
@@ -45,7 +45,7 @@
                             <EventTrigger RoutedEvent="MouseLeave">
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <ColorAnimation To="Transparent" Duration="0:0:0.4" 
+                                        <ColorAnimation To="Transparent" Duration="0:0:0.1" 
                                                         Storyboard.TargetName="border" 
                                                         Storyboard.TargetProperty="Background.Color" />
                                     </Storyboard>
@@ -53,19 +53,37 @@
                             </EventTrigger>
 
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Cursor" Value="Hand"/>
                             </Trigger>
+
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
+
         <Grid.Background>
             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                <GradientStop Color="DarkOliveGreen" Offset="0.2"/>
+                <GradientStop Color="CadetBlue" Offset="0.2"/>
                 <GradientStop Color="Black" Offset="1.0"/>
             </LinearGradientBrush>
         </Grid.Background>
@@ -76,11 +94,14 @@
         </Grid.RowDefinitions>
 
         <WrapPanel>
-            <DockPanel Width="750" Background="Black" MouseDown="DockPanel_MouseDown"/>
-            <Button Width="50" Foreground="White" 
-                   Click="Button_Click" Height="27" 
-                   Content="X"
-                   Background="Transparent"/>
+            <DockPanel Width="975" Background="Transparent" MouseDown="DockPanel_MouseDown"/>
+            <Button Width="40" Foreground="White" 
+                   Click="Button_Click" Height="40"  
+                   Background="Transparent"
+                   Style="{StaticResource ImageButtonStyle}"> 
+                <materialDesign:PackIcon Kind="ExitToApp" 
+                      Width="50" Height="40" Foreground="Silver"/>
+            </Button>
         </WrapPanel>
 
         <Grid Name="MainGrid" Grid.Row="1">

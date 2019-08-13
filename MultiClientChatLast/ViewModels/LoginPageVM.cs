@@ -37,33 +37,35 @@ namespace MultiClientChatLast.ViewModels
             mainViewModel.FireOnClickedRegistration();
         });
 
-        public MainCommand SignIn => new MainCommand((body) =>
+        public MainCommand Next => new MainCommand((body) =>
         {
-            if (Check.isRegistrated(EmailAddress))
-            {
-                mainViewModel.FireOnClickedSignIn();
+            mainViewModel.FireOnClickedNext();
+
+            //if (Check.isRegistrated(EmailAddress))
+            //{
+            //    mainViewModel.FireOnClickedNext();
               
-                App.UserOnSystem = App.RegistratedUsers.SingleOrDefault(x => x.EmailAddress == EmailAddress);
+            //    App.UserOnSystem = App.RegistratedUsers.SingleOrDefault(x => x.EmailAddress == EmailAddress);
 
-                App.UserOnSystem.IPAddress = App.LocalIPAddress;
+            //    App.UserOnSystem.IPAddress = App.LocalIPAddress;
 
-                //save user to file
-                Config.SaveToFile(App.UserOnSystem);
+            //    //save user to file
+            //    Config.SaveToFile(App.UserOnSystem);
 
-                App.SendedConfirmCode = Check.SendConfirmCode(EmailAddress);
+            //    App.SendedConfirmCode = Check.SendConfirmCode(EmailAddress);
 
-                App.ConfirmPagesType = ConfirmPages.Login;
-            }
-            else if (EmailAddress == null)
-            {
-                MessageBox.Show("Please, fill email address space");
-                EmailAddress = null;
-            }
-            else
-            {
-                MessageBox.Show("This email address was not registrated");
-                EmailAddress = null;
-            }
+            //    App.ConfirmPagesType = ConfirmPages.Login;
+            //}
+            //else if (EmailAddress == null)
+            //{
+            //    MessageBox.Show("Please, fill email address space");
+            //    EmailAddress = null;
+            //}
+            //else
+            //{
+            //    MessageBox.Show("This email address was not registrated");
+            //    EmailAddress = null;
+            //}
         });
     }
 

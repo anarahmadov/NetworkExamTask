@@ -4,39 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MultiClientChatLast.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="738" d:DesignWidth="1024" Margin="0 0 0 0">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Image Source="/Icons\chaticon.png" Width="70" Height="90" Margin="115,60,605,85" RenderTransformOrigin="0.5,0.625"/>
+        <Grid Width="100" Height="110" Margin="187,95,737,543" 
+               RenderTransformOrigin="0.5,0.625">
+            <Grid.Children>
+                <materialDesign:PackIcon Kind="ChatOutline" 
+                      Foreground="Silver" Width="100" Height="110"/>
+            </Grid.Children>
+        </Grid>
+
         <StackPanel Width="450">
-            <TextBlock Width="150" Height="40" Margin="0 50 0 0"
+            
+            <TextBlock Width="150" Height="40" Margin="0 100 0 0"
                        Text="Welcome" FontFamily="Lucida Calligraphy"
-                       Foreground="White" FontSize="30" TextAlignment="Center"/>
-            <TextBlock Text="WhatsApp Junior" Margin="50 0 0 0"
+                       Foreground="Silver" FontSize="30" TextAlignment="Center"/>
+            
+            <TextBlock Text="Telegram Junior" Margin="0 10 0 0"
                    Width="400" Height="70" FontWeight="ExtraBold"
                    FontFamily="Cooper Black" FontSize="40"
-                   Foreground="White" TextWrapping="Wrap"
+                   Foreground="Silver" TextWrapping="Wrap"
                    TextAlignment="Center"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="1">
-            <Label Width="450" Height="30" 
-                   Content="More than 1 billion people in over 180 countries use WhatsApp Junior"
-                   FontFamily="Calibri Light (Headings)" Foreground="White"
-                   FontSize="15" HorizontalContentAlignment="Center"/>
-
-            <Button Margin="0 50 0 0" Content="START"
+            
+            <Button Margin="125,100,125,0" Content="START"
                     Width="200" Height="60" Background="Transparent"
                     FontFamily="Times New Roman"
                     FontSize="20" FontWeight="ExtraBold"
                     Command="{Binding Start}"
-                    Foreground="White"/>
-        </StackPanel>
+                    Foreground="WhiteSmoke"/>
+
+            <Label Width="450" Height="30" Margin="0 100 0 0"
+                   Content="More than 1 billion people in over 180 countries use WhatsApp Junior"
+                   FontFamily="Calibri Light (Headings)" Foreground="Silver"
+                   FontSize="15" HorizontalContentAlignment="Center"/>
             
+        </StackPanel>
+
     </Grid>
 </UserControl>

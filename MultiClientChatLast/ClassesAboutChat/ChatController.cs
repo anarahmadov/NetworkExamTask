@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MultiClientChatLast.ClassesAboutChat
 {
@@ -25,7 +26,7 @@ namespace MultiClientChatLast.ClassesAboutChat
             {
                 while (true)
                 {
-                    if (App.Client.Connected)
+                    if (App.Client != null && App.Client.Connected)
                     {
                         int length = App.Client.Client.Receive(buffer);
 
@@ -43,6 +44,8 @@ namespace MultiClientChatLast.ClassesAboutChat
 
                         viewmodel.ReceviedMessage = new Message();
                     }
+                    else
+                        MessageBox.Show("No internet connetion ");
                 }
             });
         }

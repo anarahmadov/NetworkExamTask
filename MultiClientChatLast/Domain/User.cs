@@ -13,6 +13,7 @@ namespace MultiClientChatLast.Domain
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public string IPAddress { get; set; }
+        public string PhoneNumber { get; set; }
 
         public User Clone()
         {

@@ -155,19 +155,21 @@ namespace MultiClientChatLast.ViewModels
         }
 
         public void FireOnClickedConfirm(ConfirmPages confirmPageType)
-        {           
-            switch (confirmPageType)
-            {
-                case ConfirmPages.Login:
-                    OnChangedPages(this, new MyEventArgs(typeof(ChatPage)));
-                    break;
-                case ConfirmPages.Registration:
-                    OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
-                    break;
-            }
+        {
+            OnChangedPages(this, new MyEventArgs(typeof(RegistrationPage)));
+
+            //switch (confirmPageType)
+            //{
+            //    case ConfirmPages.Login:
+            //        OnChangedPages(this, new MyEventArgs(typeof(ChatPage)));
+            //        break;
+            //    case ConfirmPages.Registration:
+            //        OnChangedPages(this, new MyEventArgs(typeof(LoginPage)));
+            //        break;
+            //}
         }
 
-        public void FireOnClickedSignIn()
+        public void FireOnClickedNext()
         {
             OnChangedPages(this, new MyEventArgs(typeof(ConfirmCodePage)));
         }

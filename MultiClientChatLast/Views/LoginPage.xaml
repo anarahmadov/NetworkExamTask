@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MultiClientChatLast.Views"
              xmlns:local2="clr-namespace:MultiClientChatLast.Extensions"
              mc:Ignorable="d" 
-             d:DesignHeight="422" d:DesignWidth="800">
+             d:DesignHeight="738" d:DesignWidth="1024">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local2:TextInputToVisibilityConverter x:Key="TextInputToVisibilityConverter"/>
@@ -16,7 +16,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TextBox}">
                         <Border BorderBrush="{x:Null}" BorderThickness="1" Height="50" 
-                                    Width="280" Background="Black" 
+                                    Width="300" Background="Black" 
                                     CornerRadius="10" Opacity="0.4">
                             <Grid>
                                 <TextBlock Text="{TemplateBinding Tag}" Foreground="Gray" Margin="37 15 0 0" 
@@ -31,7 +31,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/Icons\emailicon.png" Width="20" 
                                                Margin ="5 0 0 0" Height="20"/>
-                                    <TextBox Name="txtbox" Width="240" Height="40" 
+                                    <TextBox Name="txtbox" Width="260" Height="40" 
                                              Foreground="White" Background="Transparent"
                                              CaretBrush="White" BorderThickness="3" BorderBrush="Black"
                                              VerticalContentAlignment="Center" Margin="5,0,15,0"
@@ -47,22 +47,27 @@
     </UserControl.Resources>
     
     <Grid>
-        <StackPanel>
-            <WrapPanel Margin="250 120 0 0">
-                <TextBox Width="280" Style="{StaticResource MyWaterMarkStyle}" 
-                         Tag="example@stepit.az"/>
-            </WrapPanel>
+        <StackPanel Width="400" Height="400">
 
-            <Button Margin="-10 20 0 0" Width="150" Height="50" Content="Sign In" 
+            <Label Content="Your Email Address"
+                   FontSize="20" FontWeight="Bold"
+                   Foreground="Silver" HorizontalContentAlignment="Center"
+                   FontFamily="Verdana" Margin="0 50 0 0"/>
+
+            <TextBlock Text="Enter the email address that people will find you."
+                       FontSize="15" FontWeight="Regular"
+                       Foreground="Silver" TextAlignment="Center"/>
+
+            <TextBox Width="320" Style="{StaticResource MyWaterMarkStyle}" 
+                     Margin="0 60 0 0"
+                         Tag="example@stepit.az"/>
+
+            <Button Margin="0 30 0 0" Width="280" 
+                    Height="50" Content="NEXT" 
                     FontFamily="Times New Roman"
                     FontSize="17" Background="Transparent" 
-                    Foreground="White" Command="{Binding SignIn}"
+                    Foreground="WhiteSmoke" Command="{Binding Next}"
                     />
-            <Button Margin="-10 80 0 0" Width="220" Height="60" Content="Registration" 
-                    FontFamily="Times New Roman"
-                    FontSize="20" Background="Transparent"
-                    Command="{Binding Registration}"
-                    Foreground="White"/>
         </StackPanel>
 
     </Grid>

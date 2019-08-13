@@ -1,6 +1,6 @@
-﻿using MultiClientChatLast.ViewModels;
+﻿using Microsoft.Win32;
+using MultiClientChatLast.ViewModels;
 using System.Windows.Controls;
-
 
 namespace MultiClientChatLast.Views
 {
@@ -14,6 +14,16 @@ namespace MultiClientChatLast.Views
             InitializeComponent();
 
             DataContext = new RegistrationVM(viewModel);
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            OpenFileDialog fbd = new OpenFileDialog();
+
+            if (fbd.ShowDialog() == true)
+            {
+
+            }
         }
     }
 }

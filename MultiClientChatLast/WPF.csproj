@@ -49,6 +49,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -74,10 +76,12 @@
     <Compile Include="Animation\PageAnimations.cs" />
     <Compile Include="Animation\StoryboardHelpers.cs" />
     <Compile Include="ClassesAboutChat\ChatController.cs" />
+    <Compile Include="Converters\StringToPhoneConverter.cs" />
     <Compile Include="CustomEvents\MyEventArgs.cs" />
     <Compile Include="Domain\Conversation.cs" />
     <Compile Include="Domain\Message.cs" />
     <Compile Include="Domain\User.cs" />
+    <Compile Include="Extensions\AboutCultures.cs" />
     <Compile Include="Extensions\Check.cs" />
     <Compile Include="Extensions\CircularProgressBar.xaml.cs">
       <DependentUpon>CircularProgressBar.xaml</DependentUpon>
@@ -229,6 +233,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\user3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\cameraicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\phonenumber.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
